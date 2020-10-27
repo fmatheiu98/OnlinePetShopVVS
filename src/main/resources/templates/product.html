@@ -12,7 +12,6 @@
 
     <a class="navbar-brand btn btn-primary" href="#" th:href="@{/}">Pet Shop - Home</a>
     <a class="nav-link btn btn-primary" th:href="@{/cart}" th:unless="${session.prodsession}==null"> Go To Cart</a>
-    <a th:text="'No. of items in cart: '+${noItems}" th:unless="${session.prodsession}==null"> </a>
 
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="nav navbar-nav ml-auto" style="font-size: large;">
