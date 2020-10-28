@@ -98,17 +98,6 @@ public class ProductControllerTestMethods2 {
         String res = productController.deleteOne(1,model,httpSession);
         Map<String, Map<Integer,Integer>> cart = (Map<String, Map<Integer,Integer>>)httpSession.getAttribute("prodsession");
 
-        //Map.Entry<String,Map<Integer,Integer>> entry = cart.entrySet().iterator().next();
-        //Map<Integer,Integer> intrare1 = entry.getValue();
-
-        //numarul de produse de tipul testP1 este cel corect dupa stergere
-        //assertEquals(3,intrare1.get(45));
-
-
-
-        /*verify(model, times(1)).addAttribute("cart",cart1);
-        verify(model, times(1)).addAttribute("sum",135);
-        verify(model, times(1)).addAttribute("noItems",3);*/
         assertEquals(0,cart.size());
         assertEquals("redirect:/cart",res);
     }

@@ -3,7 +3,6 @@ package com.example.vvs.webapp.service;
 import com.example.vvs.webapp.model.User;
 import com.example.vvs.webapp.repository.UserRepo;
 import com.example.vvs.webapp.web.dto.UserRegistrationDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

@@ -1,25 +1,19 @@
 package com.example.vvs.webapp.service;
 
-import com.example.vvs.webapp.model.Product;
 import com.example.vvs.webapp.model.User;
-import com.example.vvs.webapp.repository.ProductRepo;
 import com.example.vvs.webapp.repository.UserRepo;
 import com.example.vvs.webapp.web.dto.UserRegistrationDto;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.ArrayList;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;

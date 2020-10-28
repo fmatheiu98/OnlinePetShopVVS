@@ -21,8 +21,6 @@
                     <span class="nav-link"> Welcome <span sec:authentication="principal.username"></span></span>
                 </li>
 
-
-
                 <li class="nav-item" sec:authorize="isAnonymous()">
                     <a class="nav-link btn btn-primary" th:href="@{/login}"> Login <span class="sr-only"></span></a>
                 </li>

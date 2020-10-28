@@ -37,4 +37,11 @@ class OrderRepoTest {
         assertThat(repo.findAll().get(0).getCountry()).isEqualTo("test_country");
         assertThat(repo.findAll().get(0).getAddress()).isEqualTo("test_address");
     }
+
+    @Test
+    void testRepoWithoutSavedEntities()
+    {
+        assertThat(repo.count()).isEqualTo(0);
+        assertThat(repo.findAll()).isEmpty();
+    }
 }
