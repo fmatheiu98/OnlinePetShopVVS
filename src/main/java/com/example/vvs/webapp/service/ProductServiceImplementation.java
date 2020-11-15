@@ -22,7 +22,7 @@ public class ProductServiceImplementation implements ProductService{
 
     @Override
     public Product findByName(String name) {
-        if(name==null || name.equals(""))
+        if(name==null || name.isEmpty())
         {
             throw new IllegalArgumentException();
         }

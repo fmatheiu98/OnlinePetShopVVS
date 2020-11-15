@@ -1,0 +1,66 @@
+Pentru analiza statica am folosit analizorul static din Intellij.
+
+1. De inlocuit statement lambda cu expression lambda.
+
+---ProductServiceImplementationTestWithMocks.java
+Initial:
+@Test
+    void findByNameWithMockRepo_withNullArgument() {
+
+        assertThrows(IllegalArgumentException.class,()->{
+            productService.findByName("");
+        });
+        assertThrows(IllegalArgumentException.class,()->{
+            productService.findByName(null);
+        });
+    }
+
+Dupa:
+@Test
+    void findByNameWithMockRepo_withNullArgument() {
+
+        assertThrows(IllegalArgumentException.class,()-> productService.findByName(""));
+        assertThrows(IllegalArgumentException.class,()-> productService.findByName(null));
+    }
+
+
+2. Diferite campuri(variabile) care pot fi final.
+
+---CheckoutController.java
+Inainte: private OrderService orderService;
+Dupa: private final OrderService orderService;
+
+
+3. Campul orderRepository ar trebui sa fie atribuit intr-un constructor, si nu injectat cu @Autowired.
+
+---OrderServiceImplementation.java
+Initial:
+@Autowired
+    private OrderRepo orderRepository;
+
+Dupa:
+private OrderRepo orderRepository;
+
+    public OrderServiceImplementation(OrderRepo orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
+
+4. Atunci cand un String se compara cu "", este mai bine sa se foloseasca metoda isEmpty decat equals.(Performanta)
+
+---ProductServiceImplementation.java
+Inainte: name.equals("")
+Dupa: name.isEmpty()
+
+
+5. Diferite colectii din Java ar trebui initializate cu un numar dat de elemente, si nu default.
+
+Exemplu:
+List<Product> productList = new ArrayList<>(); -> new ArrayList<>(1)
+
+
+6. Sa utilizez SecureRandom in loc de Random pentru generarea unui String random in testul whenGetToRegistration_RegisterUserThenRedirect,
+din UserRegistrationControllerTest.
+
+
+

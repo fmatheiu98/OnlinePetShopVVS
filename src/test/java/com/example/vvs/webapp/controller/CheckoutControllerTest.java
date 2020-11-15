@@ -15,9 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Random;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,9 +64,7 @@ class CheckoutControllerTest {
 
     @Test
     void saveNewOrderWithNullDTO() {
-        assertThrows(IllegalArgumentException.class,()->{
-            checkoutController.registerOrder(null);
-        });
+        assertThrows(IllegalArgumentException.class,()-> checkoutController.registerOrder(null));
     }
 
     @Test

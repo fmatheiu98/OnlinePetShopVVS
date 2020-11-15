@@ -61,9 +61,7 @@ public class UserServiceImplementationTest {
     @Test
     void saveUserInDatabase_WithNullUser()
     {
-        assertThrows(IllegalArgumentException.class, () -> {
-            userServiceImplementation.save(mydto);
-        });
+        assertThrows(IllegalArgumentException.class, () -> userServiceImplementation.save(mydto));
     }
 
     @Test

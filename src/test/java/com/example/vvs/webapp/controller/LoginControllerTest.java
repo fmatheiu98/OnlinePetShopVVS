@@ -1,6 +1,5 @@
 package com.example.vvs.webapp.controller;
 
-import com.example.vvs.webapp.model.User;
 import com.example.vvs.webapp.repository.UserRepo;
 import com.example.vvs.webapp.service.UserServiceImplementation;
 import com.example.vvs.webapp.web.dto.UserRegistrationDto;
@@ -15,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

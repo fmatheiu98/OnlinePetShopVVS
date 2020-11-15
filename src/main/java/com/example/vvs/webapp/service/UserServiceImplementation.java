@@ -34,7 +34,7 @@ public class UserServiceImplementation implements UserService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
-        ArrayList<SimpleGrantedAuthority> arr = new ArrayList<>();
+        ArrayList<SimpleGrantedAuthority> arr = new ArrayList<>(1);
         arr.add(new SimpleGrantedAuthority("USER"));
         if(user == null)
             throw new IllegalArgumentException("Invalid username or password!");

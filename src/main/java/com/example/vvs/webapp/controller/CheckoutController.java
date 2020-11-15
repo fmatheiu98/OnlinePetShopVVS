@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/checkout")
 public class CheckoutController {
 
-    private OrderService orderService;
+    private final OrderService orderService;
 
     public CheckoutController(OrderService orderService) {
         this.orderService = orderService;

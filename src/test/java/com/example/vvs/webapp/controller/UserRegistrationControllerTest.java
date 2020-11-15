@@ -15,9 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.thymeleaf.spring5.expression.Mvc;
 
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.util.Random;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -70,9 +70,7 @@ public class UserRegistrationControllerTest {
 
     @Test
     void saveNewOrderWithNullDTO() {
-        assertThrows(IllegalArgumentException.class,()->{
-            userRegistrationController.registerUserAccount(null);
-        });
+        assertThrows(IllegalArgumentException.class,()-> userRegistrationController.registerUserAccount(null));
     }
 
     @Test
@@ -87,7 +85,7 @@ public class UserRegistrationControllerTest {
     @Test
     public void whenGetToRegistration_RegisterUserThenRedirect() throws Exception {
         byte[] array = new byte[7];
-        new Random().nextBytes(array);
+        new SecureRandom().nextBytes(array);
         String email = new String(array, StandardCharsets.UTF_8);
         mockMvc.perform(MockMvcRequestBuilders.post("/registration")
                 .param("first_name","George")
