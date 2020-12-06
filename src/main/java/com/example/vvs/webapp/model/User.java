@@ -1,6 +1,7 @@
 package com.example.vvs.webapp.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
@@ -70,4 +71,16 @@ public class User {
         this.passwd = passwd;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Objects.equals(first_name, user.first_name) && Objects.equals(last_name, user.last_name) && Objects.equals(email, user.email) && Objects.equals(passwd, user.passwd);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, first_name, last_name, email, passwd);
+    }
 }

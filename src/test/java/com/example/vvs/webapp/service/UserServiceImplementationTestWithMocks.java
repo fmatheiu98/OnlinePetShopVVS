@@ -37,12 +37,14 @@ class UserServiceImplementationTestWithMocks {
     @Test
     void saveUserInDatabase_OK() {
         User user = new User();
+        user.setEmail("email123");
         when(userRepo.save(any(User.class))).thenReturn(user);
 
         User savedUser = userServiceImplementation.save(dto);
 
         verify(userRepo).save(any(User.class));
         assertThat(savedUser).isNotNull();
+        assertThat(savedUser.getEmail()).isEqualTo(user.getEmail());
     }
 
     @Test
@@ -52,9 +54,10 @@ class UserServiceImplementationTestWithMocks {
         user.setEmail("test");
         when(userRepo.findByEmail(anyString())).thenReturn(user);
 
-        UserDetails foundUser = userServiceImplementation.loadUserByUsername(anyString());
+        UserDetails foundUser = userServiceImplementation.loadUserByUsername("test");
 
         verify(userRepo).findByEmail(anyString());
         assertThat(foundUser).isNotNull();
+        assertThat(foundUser.getUsername()).isEqualTo(user.getEmail());
     }
 }

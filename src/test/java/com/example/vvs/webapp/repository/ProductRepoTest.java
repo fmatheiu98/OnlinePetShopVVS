@@ -1,19 +1,28 @@
 package com.example.vvs.webapp.repository;
 
 import com.example.vvs.webapp.model.Product;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@TestPropertySource(locations="classpath:application-test.properties")
 @ActiveProfiles("test")
 @SpringBootTest
 public class ProductRepoTest {
 
     @Autowired
     private ProductRepo repo;
+
+    @BeforeEach
+    private void before()
+    {
+        repo.deleteAll();
+    }
 
     @Test
     void saveInRepository_thenTest_getByNameMethod()

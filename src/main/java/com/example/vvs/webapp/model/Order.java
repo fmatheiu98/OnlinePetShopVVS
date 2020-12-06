@@ -1,6 +1,7 @@
 package com.example.vvs.webapp.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
@@ -82,5 +83,18 @@ public class Order {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id && Objects.equals(first_name, order.first_name) && Objects.equals(last_name, order.last_name) && Objects.equals(email, order.email) && Objects.equals(country, order.country) && Objects.equals(address, order.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, first_name, last_name, email, country, address);
     }
 }

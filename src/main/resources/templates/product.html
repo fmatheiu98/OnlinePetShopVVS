@@ -33,13 +33,13 @@
     <img th:src="'../img/' + ${product.photo} + '.jpg'" alt="" width="50%" height="50%">
     <br><br>
     <div>
-        <p style="font-size: larger" class="text-capitalize h3" th:text="'Product Name: '+${product.name}"> </p>
+        <p th:id="'pname_'+${product.id}" style="font-size: larger" class="text-capitalize h3" th:text="'Product Name: '+${product.name}"> </p>
         <br>
-        <p style="font-size: larger" class="text-capitalize h3" th:text="'Price: '+${product.price}+' RON'"></p>
+        <p th:id="'pprice_'+${product.id}" style="font-size: larger" class="text-capitalize h3" th:text="'Price: '+${product.price}+' RON'"></p>
         <br>
-        <p style="font-size: larger" class="text-capitalize h3" th:text="'Description: '+${product.description}"></p>
+        <p th:id="'pdescr_'+${product.id}" style="font-size: larger" class="text-capitalize h3" th:text="'Description: '+${product.description}"></p>
         <div>
-            <a class="btn btn-primary float-right" th:href="@{'/addToCart/' + ${product.id}}" sec:authorize="isAuthenticated()"> Add to Cart </a>
+            <a th:id="'AddToCartDetails_'+${product.id}" class="btn btn-primary float-right" th:href="@{'/addToCart/' + ${product.id}}" sec:authorize="isAuthenticated()"> Add to Cart </a>
         </div>
     </div>
 </div>

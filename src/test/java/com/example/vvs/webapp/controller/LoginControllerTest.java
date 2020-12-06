@@ -3,6 +3,7 @@ package com.example.vvs.webapp.controller;
 import com.example.vvs.webapp.repository.UserRepo;
 import com.example.vvs.webapp.service.UserServiceImplementation;
 import com.example.vvs.webapp.web.dto.UserRegistrationDto;
+import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,18 +12,26 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.setup.SharedHttpSessionConfigurer.sharedHttpSession;
 
+@TestPropertySource(locations="classpath:application-test.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 class LoginControllerTest {
+
+    @Autowired
+    WebApplicationContext webApplicationContext;
 
     @InjectMocks
     LoginController loginController;
@@ -68,11 +77,16 @@ class LoginControllerTest {
         userRegistrationDto.setPasswd("1234");
 
         userServiceImplementation.save(userRegistrationDto);
-        mockMvc.perform(MockMvcRequestBuilders.post("/login")
+
+        MockMvc mockMvc2 = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                .apply(sharedHttpSession())
+                .build();
+        mockMvc2.perform(MockMvcRequestBuilders.post("/login")
                 .param("username","test@yahoo.com")
                 .param("password","1234")).andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
+
     }
 
     @Test

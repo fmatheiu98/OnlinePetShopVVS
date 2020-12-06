@@ -9,7 +9,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8fe1ff;">
     <a class="navbar-brand btn btn-primary" href="#" th:href="@{/}">Pet Shop - Home</a>
-    <a th:text="'No. of items in cart: '+${noItems}" th:unless="${session.prodsession}==null"> </a>
+    <a id="nr_items_cart" th:text="'No. of items in cart: '+${noItems}" th:unless="${session.prodsession}==null"> </a>
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="nav navbar-nav ml-auto">
@@ -33,7 +33,7 @@
 
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h2 class="h2">Your Cart</h2>
+            <h2 id="your_cart" class="h2">Your Cart</h2>
             <table class="table table-striped table-bordered text-center">
                 <thead>
                 <tr class="h5">
@@ -47,30 +47,30 @@
                 </thead>
                 <tbody>
                 <tr class="font-weight-normal" th:each="item : ${cart}">
-                    <td th:text="${item.key}"></td>
+                    <td th:id="'prod_'+${item.key}" th:text="${item.key}"></td>
                     <td>
                         <div th:each="element : ${item.value}">
-                            <span th:text="${element.value}+' PIECE(S) * '"></span>
-                            <span th:text="${element.key}+' RON EACH = '"></span>
-                            <span th:with="total=${element.key * element.value}" th:text="${total}+' RON'"></span>
+                            <span th:id="'pieces_'+${item.key}" th:text="${element.value}+' PIECE(S) * '"></span>
+                            <span th:id="'price_'+${item.key}" th:text="${element.key}+' RON EACH = '"></span>
+                            <span th:id="'total_'+${item.key}" th:with="total=${element.key * element.value}" th:text="${total}+' RON'"></span>
                         </div>
                     </td>
                     <td>
                         <div th:each="product : ${listProducts}">
-                            <a class="btn btn-primary" th:if="${item.key == product.name}" th:href="@{'/addToCartOne/' + ${product.id}}">+</a>
-                            <a class="btn btn-primary" th:if="${item.key == product.name}" th:href="@{'/deleteOne/' + ${product.id}}">-</a>
+                            <a th:id="'plus_'+${item.key}" class="btn btn-primary" th:if="${item.key == product.name}" th:href="@{'/addToCartOne/' + ${product.id}}">+</a>
+                            <a th:id="'minus_'+${item.key}" class="btn btn-primary" th:if="${item.key == product.name}" th:href="@{'/deleteOne/' + ${product.id}}">-</a>
                         </div>
                     </td>
-                    <td><a class="btn btn-primary" th:href="@{'/delete?key=' + ${item.key}}">Delete</a> </td>
+                    <td><a th:id="'delete_'+${item.key}" class="btn btn-primary" th:href="@{'/delete?key=' + ${item.key}}">Delete</a> </td>
                 </tr>
 
                 </tbody>
             </table>
 
             <div class="d-flex justify-content-around">
-                <a class="btn btn-success" href="/">Continue shopping</a>
-                <a class="h5" th:text="'Total : '+${sum}+' RON'"></a>
-                <a class="btn btn-success" th:href="@{/checkout}">Go To Checkout</a>
+                <a id="go_to_home" class="btn btn-success" href="/">Continue shopping</a>
+                <a id="total_cart" class="h5" th:text="'Total : '+${sum}+' RON'"></a>
+                <a id="go_to_chk" class="btn btn-success" th:href="@{/checkout}">Go To Checkout</a>
             </div>
         </div>
     </div>

@@ -48,19 +48,23 @@ public class ProductController {
         return "index";
     }
 
-    @RequestMapping("/product/{id}")
+    @GetMapping("/product/{id}")
     public String viewProduct(@PathVariable int id,Model model, HttpSession session)
     {
         Product p = productService.findById(id);
+        if(p == null)
+            return "redirect:/";
         model.addAttribute("myProduct",p);
         model.addAttribute("listProducts",productService.getAllTheProducts());
         return "product";
     }
 
-    @RequestMapping("/addToCart/{id}")
+    @GetMapping("/addToCart/{id}")
     public String addToCart(@PathVariable int id, Model model, HttpSession session) {
 
         Product p = productService.findById(id);
+        if(p == null)
+            return "redirect:/";
 
         if (session.getAttribute("prodsession") == null) {
 
@@ -111,10 +115,12 @@ public class ProductController {
         return "redirect:/";
     }
 
-    @RequestMapping("/cart")
+    @GetMapping("/cart")
     public String cart(HttpSession session, Model model) {
 
         Map<String, Map<Integer,Integer>> cart = (Map<String, Map<Integer,Integer>>) session.getAttribute("prodsession");
+        if(cart == null)
+            return "redirect:/";
         model.addAttribute("cart", cart);
         int sum = 0;
         int no_items = 0;
@@ -129,10 +135,12 @@ public class ProductController {
         return "cart";
     }
 
-    @RequestMapping("/delete")
+    @GetMapping("/delete")
     public String deleteFromCart(@RequestParam("key") String key, HttpSession session, Model model) {
 
         Map<String, Map<Integer,Integer>> cart = (Map<String, Map<Integer,Integer>>) session.getAttribute("prodsession");
+        if(cart == null || !cart.containsKey(key))
+            return "redirect:/cart";
         cart.remove(key);
         int sum = 0;
         for (Map<Integer, Integer> val : cart.values()) {
@@ -145,12 +153,17 @@ public class ProductController {
         return "redirect:/cart";
     }
 
-    @RequestMapping("/addToCartOne/{id}")
+    @GetMapping("/addToCartOne/{id}")
     public String addToCartOne(@PathVariable int id, Model model, HttpSession session) {
 
         Product p = productService.findById(id);
+        if(p == null)
+            return "redirect:/cart";
 
         Map<String, Map<Integer,Integer>> cart = (Map<String, Map<Integer,Integer>>) session.getAttribute("prodsession");
+
+        if(cart == null || !cart.containsKey(p.getName()))
+            return "redirect:/cart";
         Map<Integer,Integer> map = new HashMap<>();
 
         Map<Integer,Integer> hashMap = cart.get(p.getName());
@@ -173,12 +186,19 @@ public class ProductController {
         return "redirect:/cart";
     }
 
-    @RequestMapping("/deleteOne/{id}")
+    @GetMapping("/deleteOne/{id}")
     public String deleteOne(@PathVariable int id, Model model, HttpSession session) {
 
         Product p = productService.findById(id);
 
+        if(p == null)
+            return "redirect:/cart";
+
         Map<String, Map<Integer,Integer>> cart = (Map<String, Map<Integer,Integer>>) session.getAttribute("prodsession");
+
+        if(cart == null || !cart.containsKey(p.getName()))
+            return "redirect:/cart";
+
         Map<Integer,Integer> map = new HashMap<>();
 
         Map<Integer,Integer> hashMap = cart.get(p.getName());

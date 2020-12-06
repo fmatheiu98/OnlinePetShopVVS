@@ -1,13 +1,16 @@
 package com.example.vvs.webapp.repository;
 
 import com.example.vvs.webapp.model.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@TestPropertySource(locations="classpath:application-test.properties")
 @ActiveProfiles("test")
 @SpringBootTest
 class UserRepoTest {
@@ -15,9 +18,11 @@ class UserRepoTest {
     @Autowired
     private UserRepo repo;
 
+
     @Test
     void saveInRepository_thenTest_findByEmail()
     {
+        repo.deleteAll();
         User user = new User();
 
         user.setFirst_name("test_first_name");

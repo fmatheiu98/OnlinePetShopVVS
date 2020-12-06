@@ -35,10 +35,10 @@
             <div class="col-md-6 col-md-offset-3">
 
                 <div th:if="${param.success}">
-                    <div class="alert alert-info">Your order was successfully registered.</div>
+                    <div id="checkout_successful" class="alert alert-info">Your order was successfully registered.</div>
                 </div>
 
-                <h1>Checkout</h1>
+                <h1 id="checkout_page">Checkout</h1>
 
                 <form th:action="@{/checkout}" method="post" th:object="${order}">
                     <div class="form-group">
@@ -66,7 +66,7 @@
 
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success"> Place Order </button>
+                        <button id="checkout_btn" type="submit" class="btn btn-success"> Place Order </button>
                     </div>
                 </form>
             </div>

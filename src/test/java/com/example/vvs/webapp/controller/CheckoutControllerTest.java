@@ -1,6 +1,7 @@
 package com.example.vvs.webapp.controller;
 
 import com.example.vvs.webapp.model.Order;
+import com.example.vvs.webapp.repository.OrderRepo;
 import com.example.vvs.webapp.service.OrderService;
 import com.example.vvs.webapp.web.dto.OrderDto;
 import org.junit.jupiter.api.DisplayName;
@@ -12,8 +13,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
@@ -24,6 +28,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@TestPropertySource(locations="classpath:application-test.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
@@ -34,6 +39,9 @@ class CheckoutControllerTest {
 
     @Mock
     private OrderService orderService;
+
+    @Autowired
+    private OrderRepo orderRepo;
 
     @InjectMocks
     private CheckoutController checkoutController;
@@ -53,12 +61,9 @@ class CheckoutControllerTest {
 
     @Test
     void saveNewOrderThenReturnTheCorrectLink() {
-        Order order = new Order();
-        when(orderService.save(any(OrderDto.class))).thenReturn(order);
 
+        orderDto.setCountry("ROMANIA");
         String result = checkoutController.registerOrder(orderDto);
-
-        verify(orderService).save(any(OrderDto.class));
         assertThat(result).isEqualTo("redirect:/checkout?success");
     }
 
