@@ -53,6 +53,7 @@ public class SeleniumRegistrationTests {
 
         //ne aflam pe pagina de registration
         assertEquals("Already registered? Login here", driver.findElement(By.id("already_registered")).getText());
+        assertEquals("User Registration", driver.getTitle());
 
         //executa registration cu credentiale bune
         By first_name = By.id("first_name");
@@ -78,6 +79,9 @@ public class SeleniumRegistrationTests {
 
         assertEquals("Your registration was successful!", driver.findElement(By.id("registration_successful")).getText());
 
+        //suntem pe URL-ul corect
+        assertEquals("http://localhost:"+localPort+"/registration?success", driver.getCurrentUrl());
+
         By pressLogin = By.id("login_here_reg");
         wait.until(presenceOfElementLocated(pressLogin));
         driver.findElement(pressLogin).click();
@@ -95,6 +99,9 @@ public class SeleniumRegistrationTests {
         wait.until(presenceOfElementLocated(loginLogin));
         driver.findElement(loginLogin).click();
 
+        //suntem pe URL-ul corect
+        assertEquals("http://localhost:"+localPort+"/", driver.getCurrentUrl());
+
         assertEquals(reg_email, driver.findElement(By.id("user_name_index")).getText());
         assertEquals("Logout", driver.findElement(By.id("logout_index")).getText());
 
@@ -109,6 +116,7 @@ public class SeleniumRegistrationTests {
 
         //ne aflam pe pagina de registration
         assertEquals("Already registered? Login here", driver.findElement(By.id("already_registered")).getText());
+        assertEquals("User Registration", driver.getTitle());
 
         //executa registration cu credentiale care lipsesc(last-name,email si parola lipsesc)
         By first_name = By.id("first_name");

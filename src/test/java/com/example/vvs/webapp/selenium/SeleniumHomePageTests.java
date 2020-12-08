@@ -1,22 +1,16 @@
 package com.example.vvs.webapp.selenium;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-
-
-import java.util.concurrent.TimeUnit;
 
 import java.util.concurrent.TimeUnit;
 
@@ -59,6 +53,7 @@ public class SeleniumHomePageTests {
         driver.get(serverUrl);
         assertEquals("Pet Shop - Home", driver.findElement(By.id("pet_shop_home")).getText());
         assertEquals("Login", driver.findElement(By.id("login_index")).getText());
+        assertEquals("Home Page", driver.getTitle());
 
         //test buton detalii
         for(int i=1;i<=7;i++)
@@ -73,6 +68,10 @@ public class SeleniumHomePageTests {
         By loginIndex = By.id("login_index");
         wait.until(presenceOfElementLocated(loginIndex));
         driver.findElement(loginIndex).click();
+
+        //ne aflam pe pagina de login
+        assertEquals("Are you a new user? Register here", driver.findElement(By.id("login_message")).getText());
+        assertEquals("User Login", driver.getTitle());
 
         By login_email = By.id("username");
         wait.until(presenceOfElementLocated(login_email));
@@ -108,6 +107,10 @@ public class SeleniumHomePageTests {
         wait.until(presenceOfElementLocated(loginIndex));
         driver.findElement(loginIndex).click();
 
+        //ne aflam pe pagina de login
+        assertEquals("Are you a new user? Register here", driver.findElement(By.id("login_message")).getText());
+        assertEquals("User Login", driver.getTitle());
+
         By login_email = By.id("username");
         wait.until(presenceOfElementLocated(login_email));
         driver.findElement(login_email).sendKeys("dan@yahoo.com");
@@ -119,6 +122,10 @@ public class SeleniumHomePageTests {
         By loginLogin = By.id("login-submit");
         wait.until(presenceOfElementLocated(loginLogin));
         driver.findElement(loginLogin).click();
+
+        //s-a ajuns pe homepage cu succes
+        assertEquals("dan@yahoo.com", driver.findElement(By.id("user_name_index")).getText());
+        assertEquals("Logout", driver.findElement(By.id("logout_index")).getText());
 
         //click pe details 4
         By details_btn = By.id("Details_4");

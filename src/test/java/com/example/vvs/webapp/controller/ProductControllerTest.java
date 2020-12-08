@@ -108,9 +108,6 @@ class ProductControllerTest {
                         hasProperty("name",is("testP1")),
                         hasProperty("description",is("testD1")),
                         hasProperty("price",is(45)))));
-
-        //get request pe un url inexistent, deoarece nu am introdus un al doilea produs in repository
-        //assertThrows(NestedServletException.class,()-> this.mockMvc.perform(MockMvcRequestBuilders.get("/product/2")));
     }
 
     @Test

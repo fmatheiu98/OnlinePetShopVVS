@@ -92,6 +92,9 @@ public class SeleniumCartTests {
         wait.until(presenceOfElementLocated(addToCart_4));
         driver.findElement(addToCart_4).click();
 
+        //pagina corecta
+        assertEquals("http://localhost:"+localPort+"/", driver.getCurrentUrl());
+
         //verificare nr. produse in cart
         assertEquals("No. of items in cart: 5", driver.findElement(By.id("no_items_cart")).getText());
 
@@ -149,6 +152,8 @@ public class SeleniumCartTests {
         wait.until(presenceOfElementLocated(del_minge));
         driver.findElement(del_minge).click();
 
+        //pagina corecta
+        assertEquals("http://localhost:"+localPort+"/cart", driver.getCurrentUrl());
 
         //verific ce se afla in cos dupa multiple schimbari
         //verific ce este in cos
@@ -175,6 +180,9 @@ public class SeleniumCartTests {
         By goBackHomePage = By.id("go_to_home");
         wait.until(presenceOfElementLocated(goBackHomePage));
         driver.findElement(goBackHomePage).click();
+
+        //pagina corecta, home
+        assertEquals("http://localhost:"+localPort+"/", driver.getCurrentUrl());
 
         //adaug in cart 2 produse Husa
         By addToCart_7 = By.id("AddToCart_7");
