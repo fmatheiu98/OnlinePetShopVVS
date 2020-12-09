@@ -36,6 +36,7 @@ public class SeleniumCombinedTestsWithErrors {
         this.serverUrl = "http://localhost:" + localPort;
         this.driver = new ChromeDriver();
         this.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        this.driver.manage().window().maximize();
     }
 
     @AfterEach
@@ -81,7 +82,7 @@ public class SeleniumCombinedTestsWithErrors {
         wait.until(presenceOfElementLocated(first_nameErr));
         driver.findElement(first_nameErr).sendKeys("regstr_test434");
 
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         By pressRegisterErr = By.id("register-submit");
         wait.until(presenceOfElementLocated(pressRegisterErr));
@@ -94,11 +95,46 @@ public class SeleniumCombinedTestsWithErrors {
 
         driver.navigate().refresh();
 
+        //executa registration cu un mail existent in BD.
+        By first_nameErr2 = By.id("first_name");
+        wait.until(presenceOfElementLocated(first_nameErr2));
+        driver.findElement(first_nameErr2).sendKeys("regstr_test");
+        Thread.sleep(1000);
+
+        By last_nameErr2 = By.id("last_name");
+        wait.until(presenceOfElementLocated(last_nameErr2));
+        driver.findElement(last_nameErr2).sendKeys("regstr_test");
+        Thread.sleep(1000);
+
+        By regstr_emailErr2 = By.id("email");
+        wait.until(presenceOfElementLocated(regstr_emailErr2));
+        driver.findElement(regstr_emailErr2).sendKeys("dan@yahoo.com");
+        Thread.sleep(1000);
+
+        By regstr_passwdErr2 = By.id("passwd");
+        wait.until(presenceOfElementLocated(regstr_passwdErr2));
+        driver.findElement(regstr_passwdErr2).sendKeys("regstr_passwd_test");
+        Thread.sleep(1000);
+
+        By pressRegisterErr2 = By.id("register-submit");
+        wait.until(presenceOfElementLocated(pressRegisterErr2));
+        driver.findElement(pressRegisterErr2).click();
+        Thread.sleep(1000);
+
+        //eroare la inregistrare
+        assertEquals("Email already registered!", driver.findElement(By.id("registration_failed")).getText());
+
+        //suntem pe URL-ul corect
+        assertEquals("http://localhost:"+localPort+"/registration?failure", driver.getCurrentUrl());
+
+
+        driver.navigate().refresh();
+
         //executa registration cu credentiale bune
         By first_name = By.id("first_name");
         wait.until(presenceOfElementLocated(first_name));
         driver.findElement(first_name).sendKeys("regstr_test");
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         By last_name = By.id("last_name");
         wait.until(presenceOfElementLocated(last_name));
@@ -126,7 +162,7 @@ public class SeleniumCombinedTestsWithErrors {
         By pressLogin = By.id("login_here_reg");
         wait.until(presenceOfElementLocated(pressLogin));
         driver.findElement(pressLogin).click();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         //pagina corecta
         assertEquals("http://localhost:"+localPort+"/login", driver.getCurrentUrl());
@@ -145,7 +181,7 @@ public class SeleniumCombinedTestsWithErrors {
         By loginLoginErr = By.id("login-submit");
         wait.until(presenceOfElementLocated(loginLoginErr));
         driver.findElement(loginLoginErr).click();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         //suntem pe URL-ul corect
         assertEquals("http://localhost:"+localPort+"/login?error", driver.getCurrentUrl());
@@ -169,7 +205,7 @@ public class SeleniumCombinedTestsWithErrors {
         By loginLogin = By.id("login-submit");
         wait.until(presenceOfElementLocated(loginLogin));
         driver.findElement(loginLogin).click();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         //am ajuns pe homepage, corect
         assertEquals(reg_email, driver.findElement(By.id("user_name_index")).getText());
@@ -247,7 +283,7 @@ public class SeleniumCombinedTestsWithErrors {
         By go_to_cart = By.id("go_to_cart");
         wait.until(presenceOfElementLocated(go_to_cart));
         driver.findElement(go_to_cart).click();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         //am ajuns la pagina cart
         //pagina corecta, de cart
@@ -300,7 +336,7 @@ public class SeleniumCombinedTestsWithErrors {
         By del_minge = By.id("delete_Minge");
         wait.until(presenceOfElementLocated(del_minge));
         driver.findElement(del_minge).click();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         //pagina corecta
         assertEquals("http://localhost:"+localPort+"/cart", driver.getCurrentUrl());
@@ -333,7 +369,7 @@ public class SeleniumCombinedTestsWithErrors {
         By goBackHomePage = By.id("go_to_home");
         wait.until(presenceOfElementLocated(goBackHomePage));
         driver.findElement(goBackHomePage).click();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         //pagina corecta
         assertEquals("http://localhost:"+localPort+"/", driver.getCurrentUrl());

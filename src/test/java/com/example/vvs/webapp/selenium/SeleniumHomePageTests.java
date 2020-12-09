@@ -106,22 +106,27 @@ public class SeleniumHomePageTests {
         By loginIndex = By.id("login_index");
         wait.until(presenceOfElementLocated(loginIndex));
         driver.findElement(loginIndex).click();
+        Thread.sleep(1000);
 
         //ne aflam pe pagina de login
         assertEquals("Are you a new user? Register here", driver.findElement(By.id("login_message")).getText());
         assertEquals("User Login", driver.getTitle());
+        Thread.sleep(1000);
 
         By login_email = By.id("username");
         wait.until(presenceOfElementLocated(login_email));
         driver.findElement(login_email).sendKeys("dan@yahoo.com");
+        Thread.sleep(1000);
 
         By login_passwd = By.id("password");
         wait.until(presenceOfElementLocated(login_passwd));
         driver.findElement(login_passwd).sendKeys("parola");
+        Thread.sleep(1000);
 
         By loginLogin = By.id("login-submit");
         wait.until(presenceOfElementLocated(loginLogin));
         driver.findElement(loginLogin).click();
+        Thread.sleep(1000);
 
         //s-a ajuns pe homepage cu succes
         assertEquals("dan@yahoo.com", driver.findElement(By.id("user_name_index")).getText());
@@ -131,6 +136,7 @@ public class SeleniumHomePageTests {
         By details_btn = By.id("Details_4");
         wait.until(presenceOfElementLocated(details_btn));
         driver.findElement(details_btn).click();
+        Thread.sleep(1000);
 
         //pagina corecta
         assertEquals("http://localhost:"+localPort+"/product/4", driver.getCurrentUrl());

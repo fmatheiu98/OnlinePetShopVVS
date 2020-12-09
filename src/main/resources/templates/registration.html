@@ -22,6 +22,10 @@
                     <div id="registration_successful" class="alert alert-info">Your registration was successful!</div>
                 </div>
 
+                <div th:if="${param.failure}">
+                    <div id="registration_failed" class="alert alert-info">Email already registered!</div>
+                </div>
+
                 <h1 id="registration_page">Registration Page</h1>
 
                 <form th:action="@{/registration}" method="post" th:object="${user}">

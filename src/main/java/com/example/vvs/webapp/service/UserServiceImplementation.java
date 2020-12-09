@@ -28,7 +28,9 @@ public class UserServiceImplementation implements UserService{
                 registrationDto.getLast_name(),
                 registrationDto.getEmail(),
                 passwordEncoder.encode(registrationDto.getPasswd()));
-        return userRepository.save(user);
+        if(userRepository.findByEmail(user.getEmail())==null)
+            return userRepository.save(user);
+        return null;
     }
 
     @Override

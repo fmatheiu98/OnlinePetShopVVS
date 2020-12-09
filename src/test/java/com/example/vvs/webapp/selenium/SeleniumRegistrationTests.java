@@ -130,4 +130,49 @@ public class SeleniumRegistrationTests {
         //trebuie sa primesc mesajul de eroare la campul last name
         assertEquals("Please fill out this field.", driver.findElement(By.id("last_name")).getAttribute("validationMessage"));
     }
+
+    @Test
+    public void whenGetToRegistrationPage_registerWithTheSameEmail() throws InterruptedException {
+
+        String registrationURL = "http://localhost:" + localPort + "/registration";
+        WebDriverWait wait = new WebDriverWait(driver, 30, 1000);
+        driver.get(registrationURL);
+        Thread.sleep(1000);
+
+        //ne aflam pe pagina de registration
+        assertEquals("Already registered? Login here", driver.findElement(By.id("already_registered")).getText());
+        assertEquals("User Registration", driver.getTitle());
+
+        //executa registration cu un mail existent in BD.
+        By first_name = By.id("first_name");
+        wait.until(presenceOfElementLocated(first_name));
+        driver.findElement(first_name).sendKeys("regstr_test");
+        Thread.sleep(1000);
+
+        By last_name = By.id("last_name");
+        wait.until(presenceOfElementLocated(last_name));
+        driver.findElement(last_name).sendKeys("regstr_test");
+        Thread.sleep(1000);
+
+        By regstr_email = By.id("email");
+        wait.until(presenceOfElementLocated(regstr_email));
+        driver.findElement(regstr_email).sendKeys("dan@yahoo.com");
+        Thread.sleep(1000);
+
+        By regstr_passwd = By.id("passwd");
+        wait.until(presenceOfElementLocated(regstr_passwd));
+        driver.findElement(regstr_passwd).sendKeys("regstr_passwd_test");
+        Thread.sleep(1000);
+
+        By pressRegister = By.id("register-submit");
+        wait.until(presenceOfElementLocated(pressRegister));
+        driver.findElement(pressRegister).click();
+        Thread.sleep(1000);
+
+        //eroare la inregistrare
+        assertEquals("Email already registered!", driver.findElement(By.id("registration_failed")).getText());
+
+        //suntem pe URL-ul corect
+        assertEquals("http://localhost:"+localPort+"/registration?failure", driver.getCurrentUrl());
+    }
 }

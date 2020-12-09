@@ -16,8 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplementationTest {
@@ -44,6 +43,16 @@ public class UserServiceImplementationTest {
 
         mydto.setFirst_name("Flavius");
         mydto.setLast_name("Test123");
+        mydto.setEmail("test@yahoo.commmm");
+        mydto.setPasswd("1234");
+
+        User userExisting = new User(mydto.getFirst_name(),
+                mydto.getLast_name(),
+                mydto.getEmail(),
+                pw.encode(mydto.getPasswd()));
+
+        mydto.setFirst_name("Flavius");
+        mydto.setLast_name("Test123");
         mydto.setEmail("test@yahoo.com");
         mydto.setPasswd("1234");
 
@@ -52,10 +61,44 @@ public class UserServiceImplementationTest {
                 mydto.getEmail(),
                 pw.encode(mydto.getPasswd()));
 
+        when(myrepo.findByEmail(anyString())).thenReturn(null);
+
         when(myrepo.save(any(User.class))).thenReturn(user);
 
         User savedUser = userServiceImplementation.save(mydto);
         assertEquals(user,savedUser);
+    }
+
+    @Test
+    void saveUserInDatabase_Error_Same_Email() {
+
+        mydto.setFirst_name("Flavius");
+        mydto.setLast_name("Test123");
+        mydto.setEmail("test@yahoo.com");
+        mydto.setPasswd("1234");
+
+        User userExisting = new User(mydto.getFirst_name(),
+                mydto.getLast_name(),
+                mydto.getEmail(),
+                pw.encode(mydto.getPasswd()));
+
+
+        mydto.setFirst_name("Flavius545");
+        mydto.setLast_name("Test123543");
+        mydto.setEmail("test@yahoo.com");
+        mydto.setPasswd("12346456");
+
+        User user = new User(mydto.getFirst_name(),
+                mydto.getLast_name(),
+                mydto.getEmail(),
+                pw.encode(mydto.getPasswd()));
+
+        when(myrepo.findByEmail(anyString())).thenReturn(userExisting);
+
+//        when(myrepo.save(any(User.class))).thenReturn(user);
+
+        User savedUser = userServiceImplementation.save(mydto);
+        assertEquals(null,savedUser);
     }
 
     @Test
@@ -82,7 +125,7 @@ public class UserServiceImplementationTest {
 
         UserDetails foundUser = userServiceImplementation.loadUserByUsername("test@yahoo.com");
 
-        verify(myrepo).findByEmail(anyString());
+        verify(myrepo,times(2)).findByEmail(anyString());
 
         assertThat(foundUser.getUsername()).isEqualTo("test@yahoo.com");
     }

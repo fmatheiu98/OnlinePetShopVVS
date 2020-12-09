@@ -1,6 +1,7 @@
 package com.example.vvs.webapp.controller;
 
 import com.example.vvs.webapp.model.User;
+import com.example.vvs.webapp.repository.UserRepo;
 import com.example.vvs.webapp.service.UserService;
 import com.example.vvs.webapp.web.dto.UserRegistrationDto;
 import org.junit.jupiter.api.DisplayName;
@@ -49,6 +50,9 @@ public class UserRegistrationControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    UserRepo userRepo;
+
     @Test
     void userRegistrationDtoWorksAsExpected() {
         assertThat(userRegistrationController.userRegistrationDto()).isInstanceOf(UserRegistrationDto.class);
@@ -77,7 +81,7 @@ public class UserRegistrationControllerTest {
 
     @Test
     @DisplayName("Get to Registration Page -> Page responds with 200 and contains expected text")
-    public void whenGetToCheckoutPage_then200WithContent() throws Exception {
+    public void whenGetToRegistrationPage_then200WithContent() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/registration")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
                 .andExpect(view().name("registration"))
@@ -86,6 +90,7 @@ public class UserRegistrationControllerTest {
 
     @Test
     public void whenGetToRegistration_RegisterUserThenRedirect() throws Exception {
+
         byte[] array = new byte[7];
         new SecureRandom().nextBytes(array);
         String email = new String(array, StandardCharsets.UTF_8);
@@ -97,6 +102,24 @@ public class UserRegistrationControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/registration?success"))
                 .andExpect(view().name("redirect:/registration?success"));
+    }
+
+    @Test
+    public void whenGetToRegistration_RegisterUserWithAlreadyExistingEmail() throws Exception {
+
+        User user = new User();
+        user.setEmail("dan@yahoo.ro");
+        user.setPasswd("1345");
+        userRepo.save(user);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/registration")
+                .param("first_name","George123")
+                .param("last_name","Daniel123")
+                .param("email","dan@yahoo.ro")
+                .param("passwd","1234")).andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/registration?failure"))
+                .andExpect(view().name("redirect:/registration?failure"));
     }
 
 }

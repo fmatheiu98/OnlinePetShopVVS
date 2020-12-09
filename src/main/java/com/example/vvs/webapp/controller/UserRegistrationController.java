@@ -1,5 +1,6 @@
 package com.example.vvs.webapp.controller;
 
+import com.example.vvs.webapp.model.User;
 import com.example.vvs.webapp.service.UserService;
 import com.example.vvs.webapp.web.dto.UserRegistrationDto;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,9 @@ public class UserRegistrationController {
         {
             throw new IllegalArgumentException();
         }
-        userService.save(registrationDto);
-        return "redirect:/registration?success";
+        User usr = userService.save(registrationDto);
+        if(usr!=null)
+            return "redirect:/registration?success";
+        return "redirect:/registration?failure";
     }
 }
